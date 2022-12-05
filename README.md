@@ -34,8 +34,7 @@ import Constant from 'go-constant'
 
 const SIZE = {
 	SMALL: Constant(3, "Small"),
-	MEDIUM: Constant(5, "Medium"),
-	LARGE: Constant(8, "Large")
+	MEDIUM: Constant(5, "Medium")
 };
 
  
@@ -58,8 +57,7 @@ const Constant = require('go-constant');
 
 const SIZE = {
 	SMALL: Constant(3, "Small"),
-	MEDIUM: Constant(5, "Medium"),
-	LARGE: Constant(8, "Large")
+	MEDIUM: Constant(5, "Medium")
 };
 
  
@@ -79,22 +77,21 @@ console.log(message); // => Item is too big!
 ```javascript
 <script src="dist/go-constant.min.js"></script>
 <script>
-const SIZE = {
-	SMALL: Constant(3, "Small"),
-	MEDIUM: Constant(5, "Medium"),
-	LARGE: Constant(8, "Large")
-};
+	const SIZE = {
+		SMALL: Constant(3, "Small"),
+		MEDIUM: Constant(5, "Medium")
+	};
 
- 
-let item = { size: 6 };
+	 
+	let item = { size: 6 };
 
-let message;
+	let message;
 
-if (item.size > SIZE.MEDIUM) {
-	message = "Item is too big!;
-}
+	if (item.size > SIZE.MEDIUM) {
+		message = "Item is too big!;
+	}
 
-console.log(message); // => Item is too big!
+	console.log(message); // => Item is too big!
 </script>
 
 ```
