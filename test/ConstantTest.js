@@ -5,7 +5,7 @@ var assert = require("chai").assert;
 
 var Constant = require("../src/Constant");
 
-suite("Level", function () {
+suite("Constant", function () {
 
     suite("#constructor", function () {
 
@@ -31,32 +31,31 @@ suite("Level", function () {
         });
 
 
-        test("immutability", function () {
+        test("unmodifiable props", function () {
             assert.equal(level.value, 1);
             assert.equal(level.name, "foo");
 
-            try {
+            assert.throw(function () {
                 level.value = 2;
-            } catch (err) {
-            }
+            }, TypeError);
 
             assert.equal(level.value, 1);
 
 
-            try {
+            assert.throw(function () {
                 level.name = "bar";
-            } catch (err) {
-            }
+            }, TypeError);
 
             assert.equal(level.name, "foo");
         });
 
 
-        test("enumerability", function () {
-            var json = JSON.parse(JSON.stringify(level));
+        test("enumerable props", function () {
+            var keys = Object.keys(level);
 
-            assert.equal(json.value, 1);
-            assert.equal(json.name, "foo");
+            assert.equal(keys.length, 2);
+            assert(keys.includes("value"));
+            assert(keys.includes("name"));
         });
 
 
@@ -64,7 +63,7 @@ suite("Level", function () {
             var level = Constant(1, "foo");
             assert.equal(level.value, 1);
             assert.equal(level.name, "foo");
-            
+
             assert.equal(level, Constant(level));
         });
 
@@ -89,6 +88,12 @@ suite("Level", function () {
             assert.equal(level.valueOf(), "a");
             assert(level == "a");
         });
+    });
+
+
+    suite("#newType", function () {
+
+
     });
 
 

@@ -1,13 +1,13 @@
 {
     "name": "go-constant",
-    "description": "A wrapper object with unmodifiable value and name properties.",
+    "description": "Create objects with constant properties which cannot be re-assigned or reconfigured.",
     "author": "Michael Ko",
     "email": "koyote130708@gmail.com",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "license": "GNU LGPLv3",
     "keywords": [
         "constant",
-        "unmodifiable value",
+        "constant properties",
         "named value",
         "value wrapper"
     ],

@@ -1,12 +1,14 @@
 # Go Constant
 
-**A wrapper object with unmodifiable value and name properties.**
+**Create objects with constant properties which cannot be re-assigned or reconfigured** (`configurable: false, writable: false`).
+
+You can still assign new properties to the object, but you cannot override the constant properties.
 
 ![codecov.io Code Coverage](https://img.shields.io/badge/coverage-100%25-green.svg)
 [![jsdoc](https://img.shields.io/badge/docs-100%25-green.svg)](https://github.com/koyote130708/go-constant#documentation)
 [![donation](https://img.shields.io/badge/donate-blue.svg)](https://www.paypal.com/donate/?business=T7Q29NNMZVW98\&no_recurring=0\&item_name=Your+support+will+help+us++continue+our+work+and+improve+the+quality+of+our+products.+Thank+you!\&currency_code=USD)
 
-*   **version**: 1.0.0
+*   **version**: 1.1.0
 *   **license**: GNU LGPLv3
 
 <br />
@@ -25,75 +27,62 @@ yarn add go-constant
 
 <br />
 
-## Usage
+## Importing
 
 ### ES6
 
 ```javascript
-import Constant from 'go-constant'
-
-const SIZE = {
-	SMALL: Constant(3, "Small"),
-	MEDIUM: Constant(5, "Medium")
-};
-
- 
-let item = { size: 6 };
-
-let message;
-
-if (item.size > SIZE.MEDIUM) {
-	message = "Item is too big!;
-}
-
-console.log(message); // => Item is too big!
-
+import Constant from "go-constant";
 ```
 
 ### Node
 
 ```javascript
-const Constant = require('go-constant');
-
-const SIZE = {
-	SMALL: Constant(3, "Small"),
-	MEDIUM: Constant(5, "Medium")
-};
-
- 
-let item = { size: 6 };
-
-let message;
-
-if (item.size > SIZE.MEDIUM) {
-	message = "Item is too big!;
-}
-
-console.log(message); // => Item is too big!
+const Constant = require("go-constant");
 ```
 
-### Web browser
+### Browser
 
 ```javascript
 <script src="dist/go-constant.min.js"></script>
-<script>
-	const SIZE = {
-		SMALL: Constant(3, "Small"),
-		MEDIUM: Constant(5, "Medium")
-	};
+```
 
-	 
-	let item = { size: 6 };
+<br />
 
-	let message;
+## Usage
 
-	if (item.size > SIZE.MEDIUM) {
-		message = "Item is too big!;
-	}
+### Simple
 
-	console.log(message); // => Item is too big!
-</script>
+```javascript
+const RED = Constant("#FF0000", "Red");
 
+console.log(RED.value); 		// => "#FF0000"
+console.log(RED.valueOf()); 	// => "#FF0000"
+console.log(RED.name);  		// => "Red"
+```
+
+### Enum-like
+
+```javascript
+const options = { valueOf: "dayOfWeek", saveInstances: true };
+
+const Day = Constant.newType("Day", ["dayOfWeek", "name", "shortName"], options);
+
+Object.assign(Day, {
+    MONDAY : Day(1, "Monday", "Mon"),
+    TUESDAY : Day(2, "Tuesday", "Tue"),
+    WEDNESDAY : Day(3, "Wednesday", "Wed"),
+    THURSDAY : Day(4, "Thursday", "Thu"),
+    FRIDAY : Day(5, "Friday", "Fri"),
+    SATURDAY : Day(6, "Saturday", "Sat"),
+    SUNDARY : Day(7, "Sunday", "Sun")
+});
+
+console.log(Day.MONDAY.dayOfWeek);  // => 1
+console.log(Day.MONDAY.valueOf());  // => 1
+console.log(Day.MONDAY.name);       // => "Monday"
+console.log(Day.MONDAY.shortName);  // => "Mon"
+console.log(Day.instances.length);  // => 7
 ```
 
 <br />
@@ -106,16 +95,67 @@ console.log(message); // => Item is too big!
 
 *   [Constant](#constant)
     *   [Parameters](#parameters)
+    *   [Examples](#examples)
+*   [newType](#newtype)
+    *   [Parameters](#parameters-1)
+    *   [Examples](#examples-1)
 
 ### Constant
 
-Creates a wrapper object which has unmodifiable value and name properties.
+Creates a wrapper object which has constant value and name properties.
 
 #### Parameters
 
 *   `value` **any** The value of the constant.
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the constant.
 
+#### Examples
+
+```javascript
+const RED = Constant("#FF0000", "Red");
+
+console.log(RED.value);          // => "#FF0000"
+console.log(RED.valueOf());      // => "#FF0000"
+console.log(RED.name);           // => "Red"
+```
+
 **Meta**
 
-*   **since**: 1.0.0
+*   **since**: 1.1.0
+
+### newType
+
+Creates a new constant type constructor.
+
+#### Parameters
+
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the constructor.
+*   `propNames` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** The names of the constructor parameters which will be constant properties.
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Constructor options.
+
+    *   `options.validate` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** The constructor parameter validator.
+    *   `options.valueOf` **([function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function) | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** The name of the property to return as the value of the instance or the function to use to return the value of the instance.
+    *   `options.saveInstances` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Whether to save instances or not. The instances are saved in an array, <code>{ConstantType}.instances</code>.
+
+#### Examples
+
+```javascript
+const Day = Constant.newType("Day", ["dayOfWeek", "name", "shortName"], { 
+   valueOf: "dayOfWeek", 
+   saveInstances: true 
+});
+
+const MONDAY = Day(1, "Monday", "Mon");
+
+console.log(MONDAY.dayOfWeek);   // => 1
+console.log(MONDAY.valueOf());   // => 1
+console.log(MONDAY.name);        // => "Monday"
+console.log(MONDAY.shortName);   // => "Mon"
+console.log(Day.instances);      // [ Day { dayOfWeek: 1, name: "Monday", shortName: "Mon" } ]
+```
+
+Returns **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The new constant type constructor.
+
+**Meta**
+
+*   **since**: 1.1.0
