@@ -10,7 +10,7 @@ var newType = require("./newType");
  * console.log(RED.value);          // => "#FF0000"
  * console.log(RED.valueOf());      // => "#FF0000"
  * console.log(RED.name);           // => "Red"
- * @since 1.1.0
+ * @since 1.0.0
  */
 var Constant = newType("Constant", ["value", "name"], {
     validate: function (value, name) {

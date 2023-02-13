@@ -1,6 +1,6 @@
 {
     "name": "go-constant",
-    "description": "Create objects with constant properties which cannot be re-assigned or reconfigured.",
+    "description": "Declare constant properties with ease",
     "author": "Michael Ko",
     "email": "koyote130708@gmail.com",
     "version": "1.1.0",
@@ -8,8 +8,8 @@
     "keywords": [
         "constant",
         "constant properties",
-        "named value",
-        "value wrapper"
+        "read-only properties",
+        "named value"
     ],
     "homepage": "https://github.com/koyote130708/go-constant",
     "repository": {

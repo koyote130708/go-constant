@@ -1,8 +1,6 @@
 # Go Constant
 
-**Create objects with constant properties which cannot be re-assigned or reconfigured** (`configurable: false, writable: false`).
-
-You can still assign new properties to the object, but you cannot override the constant properties.
+Store values that should remain unchanged in constant properties with ease. Similar to using the `const` declaration, it creates a read-only reference to a value (`configurable: false, writable: false, enumerable: true`), however it does not make the stored value immutable. While the constant properties are protected from reassignment and reconfiguration, new properties can still be added. If you want to finalise an object and prevent extension, use `Object.freeze()`.
 
 ![codecov.io Code Coverage](https://img.shields.io/badge/coverage-100%25-green.svg)
 [![jsdoc](https://img.shields.io/badge/docs-100%25-green.svg)](https://github.com/koyote130708/go-constant#documentation)
@@ -56,9 +54,9 @@ const Constant = require("go-constant");
 ```javascript
 const RED = Constant("#FF0000", "Red");
 
-console.log(RED.value); 		// => "#FF0000"
-console.log(RED.valueOf()); 	// => "#FF0000"
-console.log(RED.name);  		// => "Red"
+console.log(RED.value);			// => "#FF0000"
+console.log(RED.valueOf());		// => "#FF0000"
+console.log(RED.name);			// => "Red"
 ```
 
 ### Enum-like
@@ -121,7 +119,7 @@ console.log(RED.name);           // => "Red"
 
 **Meta**
 
-*   **since**: 1.1.0
+*   **since**: 1.0.0
 
 ### newType
 
